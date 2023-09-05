@@ -9,26 +9,26 @@ public class LaunchBrowser {
 
     public static void main(String[] args) {
         String currentProjectLocation = System.getProperty("user.dir");
-        String chromDriverLocation = "";
+        String chromeDriverLocation = "";
         if(OS.isFamilyWindows()){
-            chromDriverLocation = currentProjectLocation + "\\src\\test\\resources\\drivers\\chromedriver.exe";
+            chromeDriverLocation = currentProjectLocation + "\\src\\test\\resources\\drivers\\chromedriver.exe";
         }
 
         if(OS.isFamilyMac()){
-            chromDriverLocation = currentProjectLocation + "/src/test/resources/drivers/chromedriver";
+            chromeDriverLocation = currentProjectLocation + "/src/test/resources/drivers/chromedriver";
         }
 
-        if(chromDriverLocation.isEmpty()){
+        if(chromeDriverLocation.isEmpty()){
             throw new IllegalArgumentException("cant");
         }
 
-        System.setProperty("qw", chromDriverLocation);
+        System.setProperty("qw", chromeDriverLocation);
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--inc");
 
         WebDriver driver = new ChromeDriver(chromeOptions);
-//        driver.manage().window().maximize();
+        driver.manage().window().maximize();
         driver.get("https://google.com");
 
         try {
