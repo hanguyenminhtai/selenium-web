@@ -1,60 +1,56 @@
 package tests.global.footer;
 
 import driver.DriverFactory;
-import models.components.global.footer.*;
-import models.pages.HomePage;
+import models.components.global.footer.FooterColumnComponent;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+import test_flows.global.FooterTestFlow;
 import url.Urls;
 
 public class FooterTest {
 
-    public static void main(String[] args) {
+    @Test(priority = 1, dependsOnMethods = {"testFooterRegisterPage"})
+    public void testFooterCategoryPage() {
         WebDriver driver = DriverFactory.getChromeDriver();
-
-        try {
-            testFooterHomePage(driver);
-            testFooterCategoryPage(driver);
-            testFooterRegisterPage(driver);
-            testFooterLoginPage(driver);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        driver.quit();
-    }
-
-    private static void testFooterHomePage(WebDriver driver) {
         driver.get(Urls.demoBaseUrl);
-        HomePage homePage = new HomePage(driver);
-        InfColumnComponent infColumnComp = homePage.footerComp().infColumnComp();
-
-        CustomerSerColumnComponent customerSerColumnComp = homePage.footerComp().customerSerColumnComp();
-
-        FollowUsColumnComponent followUsColumnComp = homePage.footerComp().followUsColumnComp();
-
-        AccountColumnComponent accountColumnComp = homePage.footerComp().accountColumnComp();
-
-        testFooterColumn(infColumnComp);
-        testFooterColumn(customerSerColumnComp);
-        testFooterColumn(followUsColumnComp);
-        testFooterColumn(accountColumnComp);
+        FooterTestFlow footerTestFlow = new FooterTestFlow(driver);
+        footerTestFlow.verifyFooterComponent();
     }
 
-    private static void testFooterCategoryPage(WebDriver driver) {
+    @Test(priority = 2)
+    public void testFooterRegisterPage() {
+        String actual = "qwer";
+        String expected = "dfdsf";
+//        Verifier.verifyEquals(actual, expected);
+
+        // Hard assertion
+        Assert.assertEquals(actual, expected, "[ERR] Welcome message is incorrect!");
+        Assert.assertTrue(actual.equals(expected), "......");
+        Assert.assertFalse(actual.equals(expected), "......");
+        Assert.fail();
+        Assert.fail("......");
     }
 
-    private static void testFooterRegisterPage(WebDriver driver) {
+    @Test(priority = 3)
+    public void testFooterLoginPage() {
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(1, 2);
+        softAssert.assertEquals(true, true);
+        softAssert.assertEquals(3, 2);
+
+        softAssert.assertAll(); // won't print Hello
+
+        System.out.println("Hello");
     }
 
-    private static void testFooterLoginPage(WebDriver driver) {
-    }
 
-    private static void testFooterColumn(FooterColumnComponent footerColumnComponent){
-        System.out.println(footerColumnComponent.headerElem().getText());
-        footerColumnComponent.linksElem().forEach(link -> {
+    private static void testFooterColumn(FooterColumnComponent footerColComp) {
+        System.out.println(footerColComp.headerElem().getText());
+        footerColComp.linksElem().forEach(link -> {
             System.out.println(link.getText());
             System.out.println(link.getAttribute("href"));
         });
     }
-
 }

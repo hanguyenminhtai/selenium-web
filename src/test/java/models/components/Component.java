@@ -1,5 +1,6 @@
 package models.components;
 
+import models.components.product.ComponentXpathSel;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,14 +41,14 @@ public class Component {
     public <T extends Component> List<T> findComponents(Class<T> componentClass, WebDriver driver) {
 
         //get component selector
-        String cssSelector;
+        By componentSelector;
         try {
-            cssSelector = componentClass.getAnnotation(ComponentCssSel.class).value();
+            componentSelector = getCompSelector(componentClass);
         } catch (Exception e) {
             throw new IllegalArgumentException("[ERR] The component must have a css selector !");
         }
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(cssSelector)));
-        List<WebElement> results = component.findElements(By.cssSelector(cssSelector));
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(componentSelector));
+        List<WebElement> results = component.findElements(componentSelector);
 
         //define component class constructor params
         Class<?>[] params = new Class[]{WebDriver.class, WebElement.class};
@@ -70,5 +71,14 @@ public class Component {
         }).collect(Collectors.toList());
 
         return components;
+    }
+
+    private By getCompSelector(Class<? extends Component> componentClass) {
+        if (componentClass.isAnnotationPresent(ComponentCssSel.class)) {
+            return By.cssSelector(componentClass.getAnnotation(ComponentCssSel.class).value());
+        } else if (componentClass.isAnnotationPresent(ComponentXpathSel.class)) {
+            return By.xpath(componentClass.getAnnotation(ComponentXpathSel.class).value());
+        } else throw new IllegalArgumentException("Component class " + componentClass + "must have annotation"
+                + ComponentCssSel.class.getSimpleName() + "or" + ComponentXpathSel.class.getSimpleName());
     }
 }
