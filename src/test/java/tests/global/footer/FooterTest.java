@@ -1,26 +1,19 @@
 package tests.global.footer;
 
-import driver.DriverFactory;
-import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import test_flows.global.FooterTestFlow;
+import tests.BaseTest;
 import url.Urls;
 
-public class FooterTest {
+public class FooterTest extends BaseTest {
 
     @Test
     public void testFooterCategoryPage() {
-        WebDriver driver = DriverFactory.getChromeDriver();
-        try {
-            driver.get(Urls.demoBaseUrl);
-            FooterTestFlow footerTestFlow = new FooterTestFlow(driver);
-            footerTestFlow.verifyProductCatFooterComponent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            driver.quit();
-        }
-
+        driver.get(Urls.demoBaseUrl);
+        Assert.fail("Demo take screenshot....");
+        FooterTestFlow footerTestFlow = new FooterTestFlow(driver);
+        footerTestFlow.verifyProductCatFooterComponent();
     }
 
     @Test
