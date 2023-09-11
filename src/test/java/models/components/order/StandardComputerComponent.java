@@ -39,7 +39,7 @@ public class StandardComputerComponent extends ComputerEssentialComponent {
 
         for (WebElement option : allOptions) {
             String currentOptionText = option.getText();
-            String optionTextWithoutSpaces = currentOptionText.trim().replace("", "");
+            String optionTextWithoutSpaces = currentOptionText.trim().replace(" ", "");
             if (optionTextWithoutSpaces.startsWith(type)) {
                 fullStrOption = currentOptionText;
                 break;

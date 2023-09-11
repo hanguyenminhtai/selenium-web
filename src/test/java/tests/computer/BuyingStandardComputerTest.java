@@ -1,6 +1,5 @@
 package tests.computer;
 
-import models.components.order.CheapComputerComponent;
 import models.components.order.StandardComputerComponent;
 import org.testng.annotations.Test;
 import test_flows.computer.OrderComputerFlow;
