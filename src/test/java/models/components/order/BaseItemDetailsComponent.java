@@ -13,9 +13,8 @@ public class BaseItemDetailsComponent extends Component {
         super(driver, component);
     }
 
-    public double productPrice(){
+    public double productPrice() {
         String productPriceText = component.findElement(productPriceSel).getText().trim();
         return Double.parseDouble(productPriceText);
     }
-
 }
