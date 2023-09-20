@@ -5,6 +5,9 @@ import models.pages.ComputerItemDetailsPage;
 import org.openqa.selenium.WebDriver;
 import test_data.computer.ComputerData;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class OrderComputerFlow<T extends ComputerEssentialComponent> {
 
     private final WebDriver driver;
@@ -17,10 +20,30 @@ public class OrderComputerFlow<T extends ComputerEssentialComponent> {
         this.computerData = computerData;
     }
 
-    public void buildCompSpecAndAddToCart(){
+    public void buildCompSpecAndAddToCart() {
         ComputerItemDetailsPage computerItemDetailsPage = new ComputerItemDetailsPage(driver);
         T computerEssentialComp = computerItemDetailsPage.computerComp(computerEssentialComponent);
-        computerEssentialComp.selectProcessorType(computerData.getProcessorType());
-        computerEssentialComp.selectRAMType(computerData.getRam());
+        String processorFullStr = computerEssentialComp.selectProcessorType(computerData.getProcessorType());
+        double processorAdditionalPrice = extractAdditionalPrice(processorFullStr);
+        String ramFullStr = computerEssentialComp.selectRAMType(computerData.getRam());
+        double ramAdditionalPrice = extractAdditionalPrice(ramFullStr);
+        String hddFullStr = computerEssentialComp.selectHDD(computerData.getHdd());
+        double hddAdditionalPrice = extractAdditionalPrice(hddFullStr);
+
+        double addtionalOsPrice = 0;
+        if(computerData.getOs() != null){
+            String fullOsStr = computerEssentialComp.selectOS(computerData.getOs());
+            addtionalOsPrice = extractAdditionalPrice(fullOsStr);
+        }
+    }
+
+    private double extractAdditionalPrice(String itemStr) {
+        double price = 0;
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        Matcher matcher = pattern.matcher(itemStr);
+        if (matcher.find()) {
+            price = Double.parseDouble(matcher.group(1).replaceAll("[+-]", ""));
+        }
+        return price;
     }
 }
