@@ -2,6 +2,7 @@ package models.components;
 
 import models.components.product.ComponentXpathSel;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -84,5 +85,17 @@ public class Component {
             return By.xpath(componentClass.getAnnotation(ComponentXpathSel.class).value());
         } else throw new IllegalArgumentException("Component class " + componentClass + "must have annotation"
                 + ComponentCssSel.class.getSimpleName() + "or" + ComponentXpathSel.class.getSimpleName());
+    }
+
+    public void scrollUpToElem(WebElement element){
+        scrollToElem("false", element);
+    }
+
+    public void scrollDownToElem(WebElement element){
+        scrollToElem("true", element);
+    }
+
+    private void scrollToElem(String position, WebElement element){
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(" + position + ");", element);
     }
 }
