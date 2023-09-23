@@ -1,0 +1,12 @@
+{
+  "firstName": "Firstname",
+  "lastName": "Lastname",
+  "email": "robert@gmail.com",
+  "country": "Canada",
+  "state": "Alberta",
+  "city": "HCM",
+  "add1": "add 1",
+  "add2": "add 2",
+  "zipCode": "666",
+  "phoneNum": "0343254111"
+}
