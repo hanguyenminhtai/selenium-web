@@ -53,7 +53,7 @@ public class DriverFactory {
                 throw new IllegalArgumentException(browserName + " is not supported");
             }
 
-            switch (browserType){
+            switch (browserType) {
                 case chrome:
                     desiredCapabilities.setBrowserName(BrowserType.chrome.getName());
                     break;
@@ -66,18 +66,19 @@ public class DriverFactory {
             }
 
             try {
-                String hub = "http://localhost:4444/wd/hub";
+                //String hub = "http://localhost:4444/wd/hub";
+                String hub = System.getProperty("hub");
                 driver = new RemoteWebDriver(new URL(hub), desiredCapabilities);
                 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return driver;
     }
 
-    public void closeBrowserSession(){
-        if(driver != null){
+    public void closeBrowserSession() {
+        if (driver != null) {
             driver.quit();
         }
     }
