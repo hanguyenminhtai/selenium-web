@@ -59,12 +59,12 @@ public class PaymentInfoComponent extends Component {
 
     public void inputExpM(String month){
         Select select = new Select(component.findElement(cardExpMDropdownSel));
-        select.selectByVisibleText(month);
+        select.selectByValue(month);
     }
 
     public void inputExpY(String year){
         Select select = new Select(component.findElement(cardExpYDropdownSel));
-        select.selectByVisibleText(year);
+        select.selectByValue(year);
     }
 
     public void inputCardCode(String code){

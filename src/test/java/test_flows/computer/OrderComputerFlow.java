@@ -11,7 +11,6 @@ import models.pages.CheckoutOptionsPage;
 import models.pages.CheckoutPage;
 import models.pages.ComputerItemDetailsPage;
 import models.pages.ShoppingCartPage;
-import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import test_data.CreditCardType;
@@ -29,7 +28,7 @@ public class OrderComputerFlow<T extends ComputerEssentialComponent> {
 
     private final WebDriver driver;
     private final Class<T> computerEssentialComponent;
-    private ComputerData computerData;
+    private final ComputerData computerData;
     private final int quantity;
     private double totalItemPrice;
     private UserDataObject defaultCheckoutUser;
@@ -164,15 +163,15 @@ public class OrderComputerFlow<T extends ComputerEssentialComponent> {
         shippingMethodComp.clickOnContinueBtn();
     }
 
-    public void selectPaymentMethod() {
+    /*public void selectPaymentMethod() {
         this.paymentMethod = PaymentMethod.COD;
-    }
+    }*/
 
     public void selectPaymentMethod(PaymentMethod paymentMethod) {
         if(paymentMethod == null) {
             throw new IllegalArgumentException("[ERR] Payment method can't be null");
         }
-        this.paymentMethod = PaymentMethod.COD;
+        this.paymentMethod = paymentMethod;
 
         CheckoutPage checkoutPage = new CheckoutPage(driver);
         PaymentMethodComponent paymentMethodComp = checkoutPage.paymentMethodComp();
@@ -207,7 +206,7 @@ public class OrderComputerFlow<T extends ComputerEssentialComponent> {
             String cardHolderFirstName = this.defaultCheckoutUser.getFirstName();
             String cardHolderLastName = this.defaultCheckoutUser.getLastName();
             paymentInfoComp.inputCardHolderName(cardHolderFirstName + " " + cardHolderLastName);
-            String cardNumber = creditCardType.equals(CreditCardType.VISA) ? "4024007186645015" : "4010061700000021";
+            String cardNumber = creditCardType.equals(CreditCardType.VISA) ? "4111111111111111" : "6011000990139424";
             paymentInfoComp.inputCardNumber(cardNumber);
             Calendar calendar = new GregorianCalendar();
             paymentInfoComp.inputExpM(String.valueOf(calendar.get(Calendar.MONTH) + 1));
@@ -218,6 +217,6 @@ public class OrderComputerFlow<T extends ComputerEssentialComponent> {
     }
 
     public void confirmOrder() {
-        //new CheckoutPage(driver).confirmOrderComp().clickOnContinueBtn();
+        new CheckoutPage(driver).confirmOrderComp().clickOnContinueBtn();
     }
 }
